@@ -23,8 +23,25 @@ class Server{
 
     // rutas
     routes(){
-        this.app.get('/',(req,res)=>{
-            res.send('Hola');
+        this.app.get('/api',(req,res)=>{
+            res.json({
+                msg:'Peticion GET'
+            });
+        });
+        this.app.put('/api',(req,res)=>{
+            res.json({
+                msg:'Peticion PUT'
+            });
+        });
+        this.app.delete('/api',(req,res)=>{
+            res.json({
+                msg:'Peticion DELETE'
+            });
+        });
+        this.app.post('/api',(req,res)=>{
+            res.status(201).json({
+                msg:'Peticion Post'
+            });
         });
     }
     // para estar escuchando
