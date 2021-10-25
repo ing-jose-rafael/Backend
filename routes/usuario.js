@@ -1,26 +1,11 @@
 const { Router } = require('express'); // para poder crear la constante router
+const { usuarioGet, usuarioPut,usuarioDelete, usuarioPost} = require('../controllers/usuario');
 
 const router = Router();
 
-router.get('/',(req,res)=>{
-    res.json({
-        msg:'Peticion GET'
-    });
-});
-router.put('/',(req,res)=>{
-    res.json({
-        msg:'Peticion PUT'
-    });
-});
-router.delete('/',(req,res)=>{
-    res.json({
-        msg:'Peticion DELETE'
-    });
-});
-router.post('/',(req,res)=>{
-    res.status(201).json({
-        msg:'Peticion Post'
-    });
-});
+router.get('/',usuarioGet); // mandando la referencia  de la funsion
+router.put('/',usuarioPut);
+router.delete('/',usuarioDelete);
+router.post('/',usuarioPost);
 
 module.exports = router;

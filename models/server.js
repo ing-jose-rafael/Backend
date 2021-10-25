@@ -9,6 +9,7 @@ class Server{
         //paths de rutas
         this.paths = {
             auth: '/api/auth',
+            user: '/api/usuarios',
         }
 
         // Middleware
@@ -28,7 +29,7 @@ class Server{
     // rutas
     routes(){
         // middleware condicional pasa por la ruta
-        this.app.use('/api/usuarios',require('../routes/usuario'));
+        this.app.use(this.paths.user, require('../routes/usuario'));
     }
     // para estar escuchando
     listen(){
