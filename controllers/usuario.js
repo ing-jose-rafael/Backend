@@ -14,9 +14,11 @@ const usuarioDelete = (req,res)=>{
         msg:'Peticion DELETE'
     });
 }
-const usuarioPost = (req,res)=>{
+const usuarioPost = (req,res) => {
+    const body = req.body;
     res.status(201).json({
-        msg:'Peticion Post'
+        msg:'Peticion Post',
+        body
     });
 }
 // exportando las funciones
