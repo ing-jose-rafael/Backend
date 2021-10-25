@@ -1,12 +1,18 @@
 const { response } = require('express');
 const usuarioGet = (req,res) => {
+    const {limited} = req.query;
     res.json({
-        msg:'Peticion GET'
+        msg:'Peticion GET',
+        limited
     });
 }
-const usuarioPut = (req,res)=>{
+const usuarioPut = (req,res) => {
+    const parames = req.params;
+    
     res.json({
-        msg:'Peticion PUT'
+        msg:'Peticion PUT',
+        parames
+
     });
 }
 const usuarioDelete = (req,res)=>{

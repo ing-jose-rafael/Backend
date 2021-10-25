@@ -4,8 +4,8 @@ const { usuarioGet, usuarioPut,usuarioDelete, usuarioPost} = require('../control
 const router = Router();
 
 router.get('/',usuarioGet); // mandando la referencia  de la funsion
-router.put('/',usuarioPut);
-router.delete('/',usuarioDelete);
 router.post('/',usuarioPost);
+router.put('/:id',usuarioPut);
+router.delete('/',usuarioDelete);
 
 module.exports = router;
