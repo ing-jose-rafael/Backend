@@ -10,12 +10,13 @@ const usuarioGet = (req,res) => {
         limited
     });
 }
-const usuarioPut = (req,res) => {
-    const parames = req.params;
-    
+const usuarioPut = async (req,res) => {
+    const {id} = req.params;
+    const {_id,google,password,correo,...resto} = req.body;
+    //TODO: mirar como se actuliza el correo
+    const usuario = await Usuario.findByIdAndUpdate(id,resto,{ new: true } );
     res.json({
-        msg:'Peticion PUT',
-        parames
+        usuario
 
     });
 }
