@@ -3,11 +3,15 @@ const bcryptjs = require('bcryptjs');
 
 const Usuario = require('../models/usuario');
 
-const usuarioGet = (req,res) => {
-    const {limited} = req.query;
+const usuarioGet = async (req,res) => {
+    const {limited=10,desde = 0} = req.query;
+    const usuarios = await Usuario.find()
+        .skip( Number( desde ) )    
+        .limit(Number(limited))
+        .exec();
     res.json({
         msg:'Peticion GET',
-        limited
+        limited,desde,usuarios
     });
 }
 const usuarioPut = async (req,res) => {
