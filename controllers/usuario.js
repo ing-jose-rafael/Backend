@@ -29,7 +29,7 @@ const usuarioPost = async (req,res = response) => {
     const {nombre,correo,rol,password} = req.body;
     const usuario = new Usuario({nombre,correo,rol,password});
 
-    //Encritar la contraseña
+    //Encriptar la contraseña
     const salt = bcryptjs.genSaltSync();
     usuario.password = bcryptjs.hashSync( password, salt );
 
