@@ -11,7 +11,7 @@ const usuarioGet = async (req,res) => {
         .exec();
     res.json({
         msg:'Peticion GET',
-        limited,desde,usuarios
+        usuarios
     });
 }
 const usuarioPut = async (req,res) => {
