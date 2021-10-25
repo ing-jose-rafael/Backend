@@ -1,4 +1,8 @@
 const { response } = require('express');
+const bcryptjs = require('bcryptjs');
+
+const Usuario = require('../models/usuario');
+
 const usuarioGet = (req,res) => {
     const {limited} = req.query;
     res.json({
@@ -20,11 +24,21 @@ const usuarioDelete = (req,res)=>{
         msg:'Peticion DELETE'
     });
 }
-const usuarioPost = (req,res) => {
-    const body = req.body;
+const usuarioPost = async (req,res = response) => {
+
+    const {nombre,correo,rol,password} = req.body;
+    const usuario = new Usuario({nombre,correo,rol,password});
+
+    //Encritar la contraseña
+    const salt = bcryptjs.genSaltSync();
+    usuario.password = bcryptjs.hashSync( password, salt );
+
+    // Guardar en la DB
+    await usuario.save();
+
     res.status(201).json({
         msg:'Peticion Post',
-        body
+        usuario,
     });
 }
 // exportando las funciones
