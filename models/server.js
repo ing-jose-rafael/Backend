@@ -10,8 +10,17 @@ class Server{
             auth: '/api/auth',
         }
 
+        // Middleware
+        this.middlewares();
+
         this.routes();
     }
+
+    middlewares(){
+        // Directorio público
+        this.app.use(express.static('public'));
+    }
+
     // rutas
     routes(){
         this.app.get('/',(req,res)=>{
