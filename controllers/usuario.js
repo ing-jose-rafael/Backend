@@ -35,11 +35,11 @@ const usuarioPut = async (req,res) => {
 }
 const usuarioDelete = async (req,res)=>{
     const {id} = req.params;
-    const usuarioJTW = req.usuario;
+    // const usuarioJTW = req.usuario;
     const usuario = await Usuario.findByIdAndUpdate(id,{estado:false},{ new: true } );
     res.json({
         usuario,
-        usuarioJTW
+        // usuarioJTW
     });
 }
 const usuarioPost = async (req,res = response) => {
