@@ -6,7 +6,6 @@ const { validarCampos } = require('../middleware/validar-campos');
 const router = Router();
 
 router.post('/login',[
-    
     check('correo','El correo no válido').isEmail(),
     check('password','El correo es obligatorio').notEmpty(),
     validarCampos
