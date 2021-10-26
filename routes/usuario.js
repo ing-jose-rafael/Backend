@@ -7,7 +7,12 @@ const { validarCampos } = require('../middleware/validar-campos');
 
 const router = Router();
 
-router.get('/',usuarioGet); // mandando la referencia  de la funsion
+router.get('/',[
+    check('limited', 'El limite debe de ser un valor numérico').if(check('limited').exists()).isNumeric(),
+    check('desde', 'Desde debe de ser un valor numérico').if(check('desde').exists()).isNumeric(),
+    validarCampos
+],usuarioGet); // mandando la referencia  de la funsion
+/** Rutas para crear Usuarios */
 router.post('/',[
     check('nombre','El nombre es obligatorio').not().isEmpty(),
     check('correo','Correo no válido').isEmail(),
@@ -25,6 +30,7 @@ router.put('/:id',[
     check('id').custom(existeId),
     check('rol').custom(esRolValido),
     check('rol').custom(esRolValido), 
+
     validarCampos
 ],usuarioPut);
 
