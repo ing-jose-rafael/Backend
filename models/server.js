@@ -40,6 +40,7 @@ class Server{
     routes(){
         // middleware condicional pasa por la ruta
         this.app.use(this.paths.user, require('../routes/usuario'));
+        this.app.use(this.paths.auth,require('../routes/auth'));
     }
     // para estar escuchando
     listen(){

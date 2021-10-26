@@ -6,12 +6,20 @@ const Usuario = require('../models/usuario');
 const usuarioGet = async (req,res) => {
     const {limited=10,desde = 0} = req.query;
     const query = { estado: true };
-    const usuarios = await Usuario.find(query)
+    // const usuarios = await Usuario.find(query)
+    //     .skip( Number( desde ) )    
+    //     .limit(Number(limited))
+    //     .exec();
+    /** Creano un arreglo de promesas utilizamos una desectruturacion de arreglos */    
+    const [ total, usuarios ] = await Promise.all([
+        Usuario.countDocuments(query),
+        Usuario.find(query)
         .skip( Number( desde ) )    
         .limit(Number(limited))
-        .exec();
+        .exec()
+    ]);
     res.json({
-        msg:'Peticion GET',
+        total,
         usuarios
     });
 }
@@ -25,9 +33,13 @@ const usuarioPut = async (req,res) => {
 
     });
 }
-const usuarioDelete = (req,res)=>{
+const usuarioDelete = async (req,res)=>{
+    const {id} = req.params;
+    const usuario = await Usuario.findByIdAndUpdate(id,{estado:false},{ new: true } );
     res.json({
-        msg:'Peticion DELETE'
+        msg:'Peticion DELETE',
+        id,
+        usuario
     });
 }
 const usuarioPost = async (req,res = response) => {
