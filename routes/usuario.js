@@ -5,8 +5,6 @@ const { usuarioGet, usuarioPut,usuarioDelete, usuarioPost} = require('../control
 const {emailExiste, esRolValido,existeId} = require('../helpers/db-validators');
 
 const { validarCampos,validarJWT, esAdminRole, tieneRole } = require('../middleware');
-// const { validarJWT } = require('../middleware/validar-jwt');
-// const { esAdminRole, tieneRole } = require('../middleware/validar-roles');
 
 const router = Router();
 
