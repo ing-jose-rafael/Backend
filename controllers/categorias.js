@@ -1,14 +1,28 @@
 const { response } = require('express');
 const {Categoria} = require('../models');
 
-const obtenerCategoria = (req, res = response) => {
+const obtenerCategoria = async (req, res = response) => {
+    const {limite=10,desde = 0} = req.query;
+    const query = { estado: true };
+    const [total,categorias] = await Promise.all([
+        Categoria.countDocuments(query),
+        Categoria.find(query)
+            .populate({ path: 'usuario', select: 'nombre' })
+            .skip( Number( desde ))    
+            .limit(Number(limite)),
+    ]);
+    // const categorias = await Categoria.find().populate({ path: 'usuario', select: 'nombre' });
     res.json({
-        msg:'categoria GET'
+        total,
+        categorias
+
     })
 }
-const obtenerCategoriaById = (req, res = response) => {
+const obtenerCategoriaById = async (req, res = response) => {
+    const { id } = req.params;
+    const categorias = await Categoria.findById(id).populate({ path: 'usuario', select: 'nombre' });
     res.json({
-        msg:'categoria GET ID'
+        categorias
     })
 }
 const crearCategoria = async (req, res = response) => {
@@ -33,14 +47,48 @@ const crearCategoria = async (req, res = response) => {
     await categoria.save();
     res.status(201).json({ categoria });
 }
-const actualizarCategoria = (req, res = response) => {
+const actualizarCategoria = async (req, res = response) => {
+    const {id} = req.params;
+    const nombre = req.body.nombre.toUpperCase();
+    // buscando si existe una categoria con ese nombre
+     /** Creano un arreglo de promesas utilizamos una desectruturacion de arreglos */    
+    // const [categoriaName,categoriaID] = await Promise.all([
+    //     Categoria.findOne({nombre}),
+    //     Categoria.findById({id}),
+
+    // ]);
+    const categoriaName = await Categoria.findOne({nombre});
+    if (categoriaName) {
+        return res.status(400).json({
+            msg:`la categoria ${categoriaName.nombre} ya existe`
+        });
+    }
+    // creamos la data
+    // como paso la validacion previa del JWT ya tenemos el usuario en la req
+    const data = {
+        nombre,
+        usuario:req.usuario._id,
+    }
+    const categoria = await Categoria.findByIdAndUpdate(id,data,{ new: true });
+    // Actualizando la categoria
     res.json({
-        msg:'categoria PUT'
+        msg:'categoria PUT',
+        categoria
     })
 }
-const eliminarCategoria = (req, res = response) => {
+const eliminarCategoria = async (req, res = response) => {
+    const {id} = req.params;
+     // creamos la data
+    // como paso la validacion previa del JWT ya tenemos el usuario en la req
+    const data = {
+        
+        usuario:req.usuario._id,
+        estado:false
+    }
+    const categoria = await Categoria.findByIdAndUpdate(id,data,{new:true})
     res.json({
-        msg:'categoria Delete'
+        categoria
+        
     })
 }
 

@@ -33,4 +33,12 @@ const CategoriaSchema = Schema({
     }
 });
 
+// para no retornar la contraseña
+CategoriaSchema.methods.toJSON = function(){
+    const {estado,__v,_id,...categoria} = this.toObject();
+    categoria.uid = _id;
+    return categoria;
+    
+}
+
 module.exports = model('Categoria',CategoriaSchema);

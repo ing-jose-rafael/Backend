@@ -1,4 +1,4 @@
-const {Usuario,Role} = require('../models');
+const {Usuario,Role, Categoria} = require('../models');
 
 // funcion para validar el email si existe
 const emailExiste = async ( correo = '' )=>{
@@ -21,8 +21,13 @@ const existeId=async(id='')=>{
         
     
 }
+const existeIdCategoria=async(id='')=>{
+    const existeID = await Categoria.findById(id).exec();
+    if (!existeID) throw new Error(`El ${id} no existe en la BD`);
+}
 module.exports = {
     emailExiste,
     esRolValido,
-    existeId
+    existeId,
+    existeIdCategoria
 }

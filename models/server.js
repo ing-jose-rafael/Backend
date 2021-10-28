@@ -11,6 +11,7 @@ class Server{
         this.paths = {
             auth: '/api/auth',
             categories: '/api/categorias',
+            products: '/api/productos',
             users: '/api/usuarios',
         }
         
@@ -42,6 +43,7 @@ class Server{
         // middleware condicional pasa por la ruta
         this.app.use(this.paths.auth,require('../routes/auth'));
         this.app.use(this.paths.categories,require('../routes/categorias'));
+        this.app.use(this.paths.products, require('../routes/productos'));
         this.app.use(this.paths.users, require('../routes/usuarios'));
     }
     // para estar escuchando
