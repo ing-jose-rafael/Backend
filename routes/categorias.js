@@ -54,6 +54,7 @@ router.delete('/:id',[
     check('id','No es un ID válido').isMongoId(),
     validarCampos,
     check('id').custom(existeIdCategoria),
+    validarCampos,
 ],eliminarCategoria);
 
 module.exports = router;
