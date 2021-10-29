@@ -10,6 +10,7 @@ class Server{
         //paths de rutas
         this.paths = {
             auth: '/api/auth',
+            asignaturas: '/api/asignaturas',
             buscar: '/api/buscar',
             categories: '/api/categorias',
             products: '/api/productos',
@@ -44,6 +45,7 @@ class Server{
     routes(){
         // middleware condicional pasa por la ruta
         this.app.use(this.paths.auth,require('../routes/auth'));
+        this.app.use(this.paths.asignaturas,require('../routes/asignaturas'));
         this.app.use(this.paths.buscar,require('../routes/buscar'));
         this.app.use(this.paths.categories,require('../routes/categorias'));
         this.app.use(this.paths.products, require('../routes/productos'));
