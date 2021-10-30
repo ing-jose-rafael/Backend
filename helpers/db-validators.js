@@ -1,4 +1,4 @@
-const {Usuario,Role, Categoria, Producto} = require('../models');
+const {Usuario,Role, Categoria, Producto, Profesor, Asignatura} = require('../models');
 
 // funcion para validar el email si existe
 const emailExiste = async ( correo = '' )=>{
@@ -29,10 +29,35 @@ const existeProductoPorId=async(id='')=>{
     const existeID = await Producto.findById(id).exec();
     if (!existeID) throw new Error(`El ${id} no existe en la BD`);
 }
+const existeProfesorPorId=async(id='')=>{
+    const existeID = await Profesor.findById(id).exec();
+    if (!existeID) throw new Error(`El ${id} no existe en la BD`);
+}
+const existeAsignaturaPorId=async(id='')=>{
+    const existeID = await Asignatura.findById(id).exec();
+    if (!existeID) throw new Error(`El ${id} no existe en la BD`);
+}
+const existeAsignaturaPorCodigo=async(codigo='')=>{
+    const existeID = await Asignatura.findOne({codigo:codigo}).exec();
+    if (existeID) throw new Error(`El ${codigo} ya existe en la BD`);
+}
+const existeAsignaturaPorNombre=async(nombre='')=>{
+    const existeID = await Asignatura.findOne({nombre:nombre}).exec();
+    if (existeID) throw new Error(`El ${nombre} ya existe en la BD`);
+}
+const existeProfesorPorCedula=async(cedula='')=>{
+    const existeID = await Profesor.findOne({cedula:cedula}).exec();
+    if (existeID) throw new Error(`La ${cedula} ya existe en la BD`);
+}
 module.exports = {
     emailExiste,
     esRolValido,
     existeId,
+    existeAsignaturaPorId,
     existeIdCategoria,
-    existeProductoPorId
+    existeProductoPorId,
+    existeProfesorPorId,
+    existeProfesorPorCedula,
+    existeAsignaturaPorCodigo,
+    existeAsignaturaPorNombre,
 }

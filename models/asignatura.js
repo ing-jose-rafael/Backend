@@ -9,6 +9,7 @@ const AsignaturaSchema = Schema({
     hPractica:{type:Number,},
     grupTeoria:{type:Number},
     grupPractica:{type:Number},
+    estado:{type:Boolean,default:true},
 });
 
 // para no retornar la contraseña
