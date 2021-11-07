@@ -1,6 +1,6 @@
 const { response,request } = require("express");
 const { ObjectId } = require('mongoose').Types;
-const {Usuario,Categoria,Producto} = require('../models');
+const {Usuario,Categoria,Producto, Profesor} = require('../models');
 // colecciones permitidas para realizar la busqueda
 const coleccionesPermitidas = [
     'categorias',
@@ -8,6 +8,7 @@ const coleccionesPermitidas = [
     'productos',
     'roles',
     'usuarios',
+    'profesores',
 ];
 const buscar = (req=request,res=response)=>{
     const {coleccion,termino } = req.params;
@@ -30,6 +31,9 @@ const buscar = (req=request,res=response)=>{
         break;
         case 'productos':
             buscarProductos(termino, res);
+        break;
+        case 'profesores':
+            buscarProfesor(termino, res);
         break;
 
         default:
@@ -127,6 +131,33 @@ const buscarUsuarios = async( termino = '', res = response ) => {
 
     res.json({
         results: usuarios
+    });
+
+}
+const buscarProfesor = async( termino = '', res = response ) => {
+    
+    // Validamos si el termino es un mongoID o el nombre de usuario
+    const esMongoID = ObjectId.isValid( termino ); // TRUE 
+
+    if ( esMongoID ) {
+        const profesor = await Profesor.findById(termino).populate([{path: 'cursos.asignatura', select: ['nombre','hTeorica','hPractica']}]);
+        // si no exite el usuario retorna un arreglo vacio
+        // todas las respuesta serán estandarizadas
+        return res.json({
+            total:( profesor ) ?1:0,
+            profesores: ( profesor ) ? [ profesor ] : []
+        });
+    }
+
+    const regex = new RegExp( termino, 'i' ); // insencible a las mayusculas
+    const profesores = await Profesor.find({
+        $or: [{ nombre: regex }, { cedula: regex }],
+        $and: [{ estado: true }]
+    }).populate([{path: 'cursos.asignatura', select: ['nombre','hTeorica','hPractica']}]);
+
+    res.json({
+        total:profesores.length,
+        profesores: profesores
     });
 
 }

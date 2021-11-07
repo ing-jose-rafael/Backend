@@ -2,8 +2,14 @@ const { response, request } = require("express");
 const { Profesor } = require("../models");
 
 const obtenerProfesor = async (req=request,res=response) => {
-    const profesores = await Profesor.find().populate([{path: 'cursos.asignatura', select: ['nombre','hTeorica','hPractica']}]);
-    res.json({ profesores });
+    const query = { estado: true };
+    const [profesores,total] = await Promise.all([
+       // Profesor.find(query),
+       Profesor.find(query).populate([{path: 'cursos.asignatura', select: ['nombre','hTeorica','hPractica']}]),
+        Profesor.countDocuments(query),
+    ]); 
+     
+    res.json({ total,profesores });
 }
 const obtenerProfesorPorID = async (req=request,res=response) => {
     const {id}= req.params;
@@ -33,10 +39,9 @@ const actualizarProfesor = async (req=request,res=response) => {
         
     }
 
+    const profesorDB = await Profesor.findByIdAndUpdate(id,data,{ new: true }).populate([{path: 'cursos.asignatura', select: ['nombre','hTeorica','hPractica']}]);
     
-    const profesorDB = await Profesor.findByIdAndUpdate(id,data,{ new: true });
-    
-    res.json({ profesorDB });
+    res.json({ profesor:profesorDB });
 }
 const eliminarProfesor = async (req=request,res=response) => {
     const {id} = req.params;

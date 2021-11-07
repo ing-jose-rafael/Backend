@@ -45,6 +45,7 @@ const existeAsignaturaPorNombre=async(nombre='')=>{
     const existeID = await Asignatura.findOne({nombre:nombre}).exec();
     if (existeID) throw new Error(`El ${nombre} ya existe en la BD`);
 }
+
 const existeProfesorPorCedula=async(cedula='')=>{
     const existeID = await Profesor.findOne({cedula:cedula}).exec();
     if (existeID) throw new Error(`La ${cedula} ya existe en la BD`);
@@ -60,4 +61,5 @@ module.exports = {
     existeProfesorPorCedula,
     existeAsignaturaPorCodigo,
     existeAsignaturaPorNombre,
+    
 }

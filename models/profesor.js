@@ -1,15 +1,15 @@
 const { Schema, model } = require('mongoose');
 /**
- * dedicacion tipo de contratacion
- * tope: las horas que deberia tener asignadas
- * cargo: asignacion administrativa
- * horas: numero de horas asignadas
+ * `dedicacion` tipo de contratacion 
+ * [tope]: las horas que deberia tener asignadas
+ * `cargo`: asignacion administrativa
+ * `horas`: numero de horas asignadas
+ * `cursos` Array de los curos, `asignatura`: id de la asignatura, grupoTeoria ó grupoPractica: grupos asignados al profesor
+ * horaTeoria o horaPractica: este valor viene del curso
+ * ** 
  */
 const ProfesorSchema = Schema({
-    nombre:{
-        type:String,
-        required:[true,'El nombre es obligatorio']
-    },
+    nombre:{ type:String, required:[true,'El nombre es obligatorio']},
     cedula:{
         type:String,
         required:[true,'La cedula es obligatoria'],
@@ -20,21 +20,15 @@ const ProfesorSchema = Schema({
         required:[true,'El tipo de contrato es obligatorio']
     },
     cargo:String,
-    tope:{
-        type:Number,
-        default:0,
-    },
-    horasAsi:{
-        type:Number,
-        default:0,
-    },
+    tope:{ type:Number,default:0 },
+    horasAsi:{ type:Number,default:0 },
     cursos:[
         {
-            
             asignatura:{
                 type: Schema.Types.ObjectId,
                 ref:'Asignatura',
             },
+            codigo:{type:String},
             grupoTeoria:{
                 type:Number,
                 default:0,
@@ -43,13 +37,12 @@ const ProfesorSchema = Schema({
                 type:Number,
                 default:0,
             },
+            horaTeoria:{ type:Number, default:0 },
+            horaPractica:{ type:Number, default:0 }
         }
     ],
-    observaciones:String,
-    estado:{
-        type:Boolean,
-        default:true,
-    }
+    observaciones:{type:String,default:''},
+    estado:{ type:Boolean,default:true}
     
 });
 

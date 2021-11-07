@@ -3,8 +3,12 @@ const {Asignatura} = require("../models");
 
 
 const obtenerAsignatura = async (req=request, res=response) => {
-    const asignaturas = await Asignatura.find();
-    res.json({asignaturas});
+    const [asignaturas,total] = await Promise.all([
+        Asignatura.find(),
+        Asignatura.countDocuments(),
+    ]);
+     
+    res.json({total,asignaturas});
 }
 const obtenerAsignaturaID = async (req=request, res=response) => {
     const {id} = req.params;
@@ -14,12 +18,10 @@ const obtenerAsignaturaID = async (req=request, res=response) => {
 const crearAsignatura = async (req=request, res=response) => {
     
     const {estado,...data} = req.body;
-    
+    data.profesores=[];
     const asignatura = new Asignatura(data)
     await asignatura.save();
-    res.json({msg:'POST',
-    asignatura
-    });
+    res.status(201).json({asignatura});
 }
 const actualizarAsignatura = async (req=request, res=response) => {
     const {id} = req.params;
