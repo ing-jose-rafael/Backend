@@ -195,7 +195,7 @@ const eliminarAsignacion = async (req,res)=>{
 
     curso.grupTeoriaAsig = curso.grupTeoriaAsig - grupoTeoria;
      curso.grupPracticaAsig = curso.grupPracticaAsig - grupoPractica;
-    // // // eliminar las horas asignadas al profesor
+    // eliminar las horas asignadas al profesor
     profesor.horasAsi = profesor.horasAsi - ((curso.hTeorica * grupoTeoria) + (curso.hPractica * grupoPractica));    
     
     // // filtra de profesor del arreglo cursos donde el id de la asignatura no es igual al psado
