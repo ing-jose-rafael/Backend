@@ -198,7 +198,6 @@ const eliminarAsignacion = async (req,res)=>{
     // // // eliminar las horas asignadas al profesor
     profesor.horasAsi = profesor.horasAsi - ((curso.hTeorica * grupoTeoria) + (curso.hPractica * grupoPractica));    
     
-    // console.log(profesor.horasAsi );
     // // filtra de profesor del arreglo cursos donde el id de la asignatura no es igual al psado
     const cursos = profesor.cursos.filter(curso => curso.asignatura._id != idC);
     profesor.cursos.splice(0,profesor.cursos.length);
